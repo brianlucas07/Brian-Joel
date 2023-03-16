@@ -253,11 +253,25 @@ class Application():
                             messagebox.showinfo('USUÁRIO', 'JA COMPROU VEÍCULO')
                             self.cursor9.execute(f" select CADASTRO.nome,CADASTRO.sobrenome,CARROS.fabricante, CARROS.modelo, CARROS.ano_veiculo,compra.valor,compra.data from CADASTRO join compra on compra.idcliente = CADASTRO.id join CARROS on CARROS.idcarros = compra.idveiculo where cpf = {self.login_cpf}")
                             self.res = (self.cursor9.fetchall())
-                            messagebox.showinfo('OPA', f'{self.res}')
+
+                            self.objeto_show = {'nome':f'{self.res[0][0]}', 'sobrenome':f'{self.res[0][1]}','fabricante':f'{self.res[0][2]}','modelo':f'{self.res[0][3]}', 'ano':f'{self.res[0][4]}','valor':f'{self.res[0][5]}','data':f'{self.res[0][6]}'}
+
+                            messagebox.showinfo('DADOS DA COMPRA', f"Nome: {self.objeto_show['nome']}\n"
+                                                                   f"Sobrenome: {self.objeto_show['sobrenome']}\n"
+                                                                   f"Fabricante: {self.objeto_show['fabricante']}\n"
+                                                                   f"Modelo: {self.objeto_show['modelo']}\n"
+                                                                   f"Ano: {self.objeto_show['ano']}\n"
+                                                                   f"Valor: {self.objeto_show['valor']}\n"
+                                                                   f"Data: {self.objeto_show['data']}\n")
+
+
+
                         else:
                             self.consulta4 = (f"select score from CADASTRO where cpf = {self.login_cpf}")
                             self.cursor7.execute(self.consulta4)
                             self.result4 = self.cursor7.fetchall()
+                            self.objeto = {'Score':f'{self.result4[0][0]}'}
+                            messagebox.showwarning('opa', f"Score:{self.objeto['Score']}")
 
                             self.consulta3 = (f"select * from CARROS where relacao between 0 and {self.result4[0][0]}")
                             self.cursor6.execute(self.consulta3)
@@ -418,7 +432,7 @@ class Application():
 
         self.img_veiculo = PhotoImage(data=base64.b64decode(self.base64_veiculo))
 
-        self.titulo = Label(self.frame_root, font=("Helvetica", 16, "bold"), text="Faça o Financiamento do seu carro")
+        self.titulo = Label(self.frame_root, font=("Helvetica", 16, "bold"), text="Faça o Financiamento do carro")
         self.titulo.place(relx=0.5, rely=0.25, anchor=CENTER)
         self.titulo.configure(bg=f'{self.back}')
 
@@ -427,9 +441,11 @@ class Application():
         self.foto_veiculo.configure(bg=f'{self.back}')
 
         self.paragrafo = Label(self.frame_root, font=("arial", 10, "italic"),
-                               text="Com base no seu score, o ajudaremos a encontrar o melhor carro.")
+                               text="Com base no score, vamos encontrar o melhor carro.")
         self.paragrafo.place(relx=0.5, rely=0.75, anchor=CENTER)
         self.paragrafo.configure(bg=f'{self.back}')
+        
+        
 
         # -------criando botao começar-------
 
